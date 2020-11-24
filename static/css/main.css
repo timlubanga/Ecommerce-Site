@@ -13,7 +13,6 @@ h6 {
 
 .box-element {
   box-shadow: hsl(0, 0%, 80%) 0 0 16px;
-  background-color: #fff;
   border-radius: 4px;
   padding: 10px;
 }
@@ -53,9 +52,11 @@ h6 {
   display: block;
   text-align: center;
   color: #fff;
+  padding: 2px;
+  padding-left: 3px;
+  font-weight: 700;
+  padding-right: 3px;
   background-color: red;
-  width: 20px;
-  height: 25px;
   border-radius: 50%;
   font-size: 14px;
 }
@@ -109,4 +110,10 @@ h6 {
 
 .hidden {
   display: none !important;
+}
+
+#payment-info {
+  background-color: red;
+  text-align: center;
+  color: white;
 }
