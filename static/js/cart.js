@@ -14,7 +14,7 @@ const handleAddItemclick = (e) => {
 };
 
 const handleCookies = (productId, action) => {
-  console.log("you are not logged  in fucker ");
+  console.log("you are not logged  in ");
   const cart = JSON.parse(getCookie("cart"));
   const cookies = {};
 
@@ -27,27 +27,20 @@ const handleCookies = (productId, action) => {
     cookies["action"] = action;
     cookies["quantity"] = 1;
     cart.push(cookies);
-    setCookie("cart", JSON.stringify(cart, 200));
-  } else {
+  } else if (itemIndex > -1 && action == "add") {
     cart[itemIndex].quantity += 1;
+  } else if (
+    itemIndex > -1 &&
+    action == "remove" &&
+    cart[itemIndex].quantity <= 1
+  ) {
+    cart.splice(itemIndex, 1);
     console.log(cart);
-    setCookie("cart", JSON.stringify(cart, 200));
+  } else if (itemIndex > -1 && action == "remove") {
+    cart[itemIndex].quantity -= 1;
   }
-
-  // for (item of cart) {
-  //   if (item.productId == productId) {
-  //     item.quantity = +1;
-  //   } else {
-  //     cookies["productId"] = productId;
-  //     cookies["action"] = action;
-  //     cookies["quantity"] = 1;
-  //     cart.push(cookies);
-  //   }
-  //   console.log(cart);
-  //   setCookie("cart", JSON.stringify(cart, 200));
-  // }
-
-  // setCookie("cart", JSON.stringify(cart, 200));
+  setCookie("cart", JSON.stringify(cart), 200);
+  location.reload();
 };
 for (let i = 0; i < update_array.length; i++) {
   update_array[i].addEventListener("click", handleAddItemclick);

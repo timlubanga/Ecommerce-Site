@@ -1,16 +1,18 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
+<script src="https://www.paypal.com/sdk/js?client-id=AYh0KQNwUPsE8IwkCgJBd537FYmcJ9Obamqj8FCHtFO4K-rhKrPm-m0jdsVGN-hjmaRv2Xh54Hv8gVuq"> // Replace YOUR_SB_CLIENT_ID with your sandbox client ID
+</script>
      <div class="row">
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
                 <form id="form">
 					<div id="user-info">
 						<div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name..">
+							<input required class="form-control" id="name" type="text" name="name" placeholder="Name..">
 						</div>
 						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email..">
+							<input required class="form-control" id="email" type="email" name="email" placeholder="Email..">
 						</div>
 					</div>
 					
@@ -19,19 +21,19 @@
 						<p>Shipping Information:</p>
 						<hr>
 						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address.." required>
+							<input class="form-control" id="address" type="text" name="address" placeholder="Address.." required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City.."required>
+							<input class="form-control" id="city" type="text" name="city" placeholder="City.."required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State.."required>
+							<input class="form-control" id="state" type="text" name="state" placeholder="State.."required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code.."required>
+							<input class="form-control" id="zipcode" type="text" name="zipcode" placeholder="Zip code.."required>
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="country.."required>
+							<input class="form-control" id="country" type="text" name="country" placeholder="country.."required>
 						</div>
 					</div>
 
@@ -42,7 +44,7 @@
             </div>
             <br>
 			<div class="box-element hidden" id="payment-info">
-				<small>Paypal Options</small>
+				<div id="paypal-button-container"></div>
 			</div>
 			
 		</div>
@@ -68,7 +70,7 @@
 	</div>
 	<script type="text/javascript">
  const userStatus="{{request.user}}";
-
+ 
 
  if (userStatus!="AnonymousUser" && "{{shipping}}"=="False"){
 		document.getElementById("shipping-info").innerHTML=""
@@ -90,22 +92,107 @@
 	document.getElementById("user-info").innerHTML=""
  }
 
+
+
+const userSubmitData={
+	name:null,
+	email:null
+}
+
+
+	const shippingInfo={
+		address:"",
+		city:"",
+		state:"",
+		zipCode:"",
+		country:""
+	}
+
+
+
+
+
+
  
- 
 
 
+ const checkoutData = (personalData) => {
+  fetch("/processOrder/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-CSRFtoken": csrftoken },
+    body: JSON.stringify(personalData),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+		
+	  setCookie("cart", JSON.stringify([]), 0)
+	location.href="{% url 'store' %}"
+	
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
- const handleFormSubmission=()=>{
+const handleFormSubmission=()=>{
 	document.getElementById("form").addEventListener("submit", (e)=>{
 		e.preventDefault()
-		document.getElementById("shipping-info").innerHTML=""
 		document.getElementById("form-button").classList.add("hidden");
 		document.getElementById("payment-info").classList.remove("hidden")
+		
+	
+		// location.href="{% url 'store' %}"
+
+
 	})
 
 
  }
+
  handleFormSubmission()
+ document.getElementById("payment-info").addEventListener("click", ()=>{
+	if (userStatus=="AnonymousUser"){
+	userSubmitData.name=document.getElementById("name").value;
+	userSubmitData.email=document.getElementById("email").value;
+
+}
+
+if ("{{shipping}}"=="True"){
+	shippingInfo.address=document.getElementById("address").value
+	shippingInfo.city=document.getElementById("city").value;
+	shippingInfo.zipCode=document.getElementById("zipcode").value;
+	shippingInfo.state=document.getElementById("state").value;
+	shippingInfo.country=document.getElementById("country").value;
+	
+}
+	
+ })
+
+ paypal.Buttons({style: {
+                color:  'blue',
+               
+            },
+        createOrder: function(data, actions) {
+          return actions.order.create({
+			
+            purchase_units: [{
+              amount: {
+                value: parseFloat('{{order.total_order_price}}').toFixed(2)
+              }
+			}],
+			
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+			alert('Transaction completed by ' + "{{request.user.customer.name}}");
+			const UserPersonalData={shippingInfo, userSubmitData}
+	 		checkoutData(UserPersonalData)
+          });
+        }
+      }).render('#paypal-button-container');
  
 </script>
 {% endblock content %}
