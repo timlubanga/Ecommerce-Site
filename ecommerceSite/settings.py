@@ -130,6 +130,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 if 'HEROKU' in os.environ:
     import django_heroku
     django_heroku.settings(locals())
-    DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-    DROPBOX_OAUTH2_TOKEN = 'sl.AuIyUgNg84G4FVawcQSY9Ckwje0bahnW8kDDgL7OXTaPFwg-kJqMIlPFD6owv1y52DtysYBALldXwnnRKOCoICfLS0S7nBoNK0yxpH3ud-ziDDV0Vp6_D0RvfDeijGnTAy4xXXC81xk'
-    DROPBOX_ROOT_PATH = "/images"
+    # DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+    # DROPBOX_OAUTH2_TOKEN = 'sl.AuIyUgNg84G4FVawcQSY9Ckwje0bahnW8kDDgL7OXTaPFwg-kJqMIlPFD6owv1y52DtysYBALldXwnnRKOCoICfLS0S7nBoNK0yxpH3ud-ziDDV0Vp6_D0RvfDeijGnTAy4xXXC81xk'
+    # DROPBOX_ROOT_PATH = "/images"
