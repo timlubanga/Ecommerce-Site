@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .models import Product, Order, OrderItem, ShippingAddress, Customer
+from store.models import Product, Order, OrderItem, ShippingAddress, Customer
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse, redirect
 import json
 import uuid
-from .utils import cookiesCart, contextData, authenticatedData
+from store.utils import cookiesCart, contextData, authenticatedData
 
 
 def store(request):
@@ -59,7 +59,7 @@ def processOrder(request):
     if request.user.is_authenticated:
         data = authenticatedData(request)
         order, created = Order.objects.get_or_create(
-        customer=request.user.customer, complete=False)
+            customer=request.user.customer, complete=False)
         order.transaction_id = transaction_id
         if data["shipping"]:
             customerDetails = json.loads(request.body)
@@ -90,7 +90,7 @@ def processOrder(request):
         if data["shipping"]:
             shippingaddress, created = ShippingAddress.objects.get_or_create(
                 customer=customer)
-            
+
             shippingaddress.order = order
             shippingaddress.zipcode = customerDetails["shippingInfo"]["zipCode"]
             shippingaddress.address = customerDetails["shippingInfo"]["address"]
