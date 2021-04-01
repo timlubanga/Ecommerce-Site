@@ -8,7 +8,8 @@ from store.utils import cookiesCart, contextData, authenticatedData
 
 
 def store(request):
-    # products = Product.objects.all()
+    products = Product.objects.all()
+    print(products)
     contextInfo = contextData(request)
     order = contextInfo["order"]
     context = {"order": order}
