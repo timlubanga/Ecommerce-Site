@@ -20,4 +20,4 @@ Ecommerce site built with Django
 
 7. Run the django development server using python manage.py runserver
 
-please find the link to the app and **[App](https://https://jumiaexpress.herokuapp.com/)**
+## please find the link to the app and **[App](https://jumiaexpress.herokuapp.com/)**
