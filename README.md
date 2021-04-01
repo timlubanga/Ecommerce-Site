@@ -1,6 +1,6 @@
 # Ecommerce-Site
-Ecommerce site built with Django
 
+Ecommerce site built with Django
 
 # Installation Steps
 
@@ -20,4 +20,4 @@ Ecommerce site built with Django
 
 7. Run the django development server using python manage.py runserver
 
-please find the link to **[the Documentation](https://jumiaapiclone.herokuapp.com/redoc/)** and **[App](https://jumiaapiclone.herokuapp.com)**
+please find the link to the app and **[App](https://https://jumiaexpress.herokuapp.com/)**
