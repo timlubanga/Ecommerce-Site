@@ -8,10 +8,10 @@ from store.utils import cookiesCart, contextData, authenticatedData
 
 
 def store(request):
-    products = Product.objects.all()
+    # products = Product.objects.all()
     contextInfo = contextData(request)
     order = contextInfo["order"]
-    context = {"products": products, "order": order}
+    context = {"order": order}
     return render(request, "store/store.html", context)
 
 
