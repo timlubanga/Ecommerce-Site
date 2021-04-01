@@ -128,4 +128,4 @@ if 'HEROKU' in os.environ:
     import django_heroku
     django_heroku.settings(locals())
     DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-    DROPBOX_OAUTH2_TOKEN = 'sl.AuEuAF4De3Piw3p5nqXIDJPwPJQKA_xYbsj4pkjQ5eAbUFHJsU4cIbYZa20FjNeCZy3swARnsQrqhm2lbRRyDgjqwqfWRihVpRZarMGlfFqei3mEozmNT_ZC65Pu6sUc4YbQ004'
+    DROPBOX_OAUTH2_TOKEN = 'sl.AuIyUgNg84G4FVawcQSY9Ckwje0bahnW8kDDgL7OXTaPFwg-kJqMIlPFD6owv1y52DtysYBALldXwnnRKOCoICfLS0S7nBoNK0yxpH3ud-ziDDV0Vp6_D0RvfDeijGnTAy4xXXC81xk'
